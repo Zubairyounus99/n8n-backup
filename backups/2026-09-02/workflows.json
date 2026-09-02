@@ -7866,74 +7866,11 @@
     "active": false,
     "activeVersionId": null,
     "createdAt": "2026-08-29T13:38:42.596Z",
-    "updatedAt": "2026-09-02T19:40:38.264Z",
+    "updatedAt": "2026-09-02T19:44:41.117Z",
     "isArchived": false,
-    "versionId": "69116837-d601-4684-bd42-31dc1ff5e81c",
+    "versionId": "9032bc48-c7e5-4631-9723-421a4ed506c2",
     "triggerCount": 0,
     "nodes": [
-      {
-        "parameters": {
-          "content": "## 🔄 Auto Backup → GitHub (daily + /backup)\n\n### How it works\n\nThis workflow automatically backs up all n8n workflows to GitHub once per day and can also be triggered manually with a Telegram /backup command. It gathers the workflow definitions, builds a backup file, then checks GitHub to decide whether to update an existing file or create a new one. After the GitHub write finishes, it sends a Telegram confirmation message.\n\n### Setup steps\n\n- Configure the Schedule Trigger timezone so the daily 03:00 run happens at the intended local time.\n- Set up Telegram credentials for both the trigger and notification node, including the bot token and target chat details.\n- Configure the n8n credential or API access used by the Get All Workflows node so it can read all workflows.\n- Configure GitHub credentials and set the repository, branch, file path, and commit details for the check, update, and create file nodes.\n- Verify the Telegram filter matches the exact manual command you want to use, such as /backup.\n\n### Customization\n\nYou can change the backup frequency, Telegram command, GitHub repository or file path, backup filename format, and notification message to match your operational needs.",
-          "height": 864,
-          "width": 480
-        },
-        "id": "6a2d7c22-e105-47ff-b03c-752e6305189e",
-        "name": "Sticky Note",
-        "type": "n8n-nodes-base.stickyNote",
-        "position": [
-          496,
-          -48
-        ],
-        "typeVersion": 1
-      },
-      {
-        "parameters": {
-          "content": "## Backup entry points\n\nStarts the backup either on the daily 03:00 schedule or from a Telegram command, then filters Telegram messages so only /backup continues.",
-          "height": 528,
-          "width": 416,
-          "color": 7
-        },
-        "id": "cffa3be5-ed3d-4255-84fc-192dda4792bc",
-        "name": "Sticky Note1",
-        "type": "n8n-nodes-base.stickyNote",
-        "position": [
-          1056,
-          -32
-        ],
-        "typeVersion": 1
-      },
-      {
-        "parameters": {
-          "content": "## Build backup payload\n\nFetches all n8n workflows and uses code to package them into the backup file content that will be stored in GitHub.",
-          "height": 320,
-          "width": 416,
-          "color": 7
-        },
-        "id": "4dfc4dec-e111-480c-9781-cf143e6b40b3",
-        "name": "Sticky Note2",
-        "type": "n8n-nodes-base.stickyNote",
-        "position": [
-          1520,
-          64
-        ],
-        "typeVersion": 1
-      },
-      {
-        "parameters": {
-          "content": "## Save and notify\n\nChecks whether the backup file already exists in GitHub, updates or creates it accordingly, and sends a Telegram notification after the save completes.",
-          "height": 528,
-          "width": 656,
-          "color": 7
-        },
-        "id": "c67cd10c-9c57-4c47-8fc8-85a872b8f464",
-        "name": "Sticky Note3",
-        "type": "n8n-nodes-base.stickyNote",
-        "position": [
-          1968,
-          -48
-        ],
-        "typeVersion": 1
-      },
       {
         "parameters": {
           "rule": {
@@ -7950,7 +7887,7 @@
         "type": "n8n-nodes-base.scheduleTrigger",
         "position": [
           1104,
-          128
+          208
         ],
         "typeVersion": 1.2
       },
@@ -7963,8 +7900,8 @@
         "name": "Fetch All Workflows",
         "type": "n8n-nodes-base.n8n",
         "position": [
-          1568,
-          224
+          1328,
+          208
         ],
         "typeVersion": 1,
         "credentials": {
@@ -7982,8 +7919,8 @@
         "name": "Build Backup File",
         "type": "n8n-nodes-base.code",
         "position": [
-          1792,
-          224
+          1552,
+          208
         ],
         "typeVersion": 2
       },
@@ -8011,8 +7948,8 @@
         "name": "Check File Existence in GitHub",
         "type": "n8n-nodes-base.github",
         "position": [
-          2016,
-          224
+          1776,
+          208
         ],
         "webhookId": "0282bc0e-018c-495f-be3d-e222e264ee5a",
         "typeVersion": 1.1,
@@ -8030,13 +7967,15 @@
           "operation": "edit",
           "owner": {
             "__rl": true,
-            "mode": "name",
-            "value": "omarechkoy-ai"
+            "value": "zubairyounus99",
+            "mode": "name"
           },
           "repository": {
             "__rl": true,
-            "mode": "name",
-            "value": "main-n8n-backup"
+            "value": "n8n-backup",
+            "mode": "list",
+            "cachedResultName": "n8n-backup",
+            "cachedResultUrl": "https://github.com/Zubairyounus99/n8n-backup"
           },
           "filePath": "={{ $('Build Backup File').item.json.filePath }}",
           "fileContent": "={{ $('Build Backup File').item.json.fileContent }}",
@@ -8046,24 +7985,32 @@
         "name": "Update File on GitHub",
         "type": "n8n-nodes-base.github",
         "position": [
-          2240,
+          2000,
           112
         ],
         "webhookId": "8229fc55-8734-4412-acb8-cc83da7fcd41",
-        "typeVersion": 1.1
+        "typeVersion": 1.1,
+        "credentials": {
+          "githubApi": {
+            "id": "hlYRcPMSMH2avcih",
+            "name": "GitHub account"
+          }
+        }
       },
       {
         "parameters": {
           "resource": "file",
           "owner": {
             "__rl": true,
-            "mode": "name",
-            "value": "omarechkoy-ai"
+            "value": "Zubairyounus99",
+            "mode": "name"
           },
           "repository": {
             "__rl": true,
-            "mode": "name",
-            "value": "main-n8n-backup"
+            "value": "n8n-backup",
+            "mode": "list",
+            "cachedResultName": "n8n-backup",
+            "cachedResultUrl": "https://github.com/Zubairyounus99/n8n-backup"
           },
           "filePath": "={{ $('Build Backup File').item.json.filePath }}",
           "fileContent": "={{ $('Build Backup File').item.json.fileContent }}",
@@ -8073,27 +8020,17 @@
         "name": "Create File on GitHub",
         "type": "n8n-nodes-base.github",
         "position": [
-          2240,
-          320
+          2000,
+          304
         ],
         "webhookId": "b51494e4-2b44-4b44-b2dc-51fd7018258a",
-        "typeVersion": 1.1
-      },
-      {
-        "parameters": {
-          "chatId": "={{ $('Build Backup File').item.json.chatId }}",
-          "text": "=✅ n8n backup ({{ $('Build Backup File').item.json.source }})\n{{ $('Build Backup File').item.json.date }} — {{ $('Build Backup File').item.json.count }} workflows\n{{ $json.commit && $json.commit.html_url ? $json.commit.html_url : ($json.content && $json.content.html_url ? $json.content.html_url : '') }}",
-          "additionalFields": {}
-        },
-        "id": "648edc16-e190-458a-a102-2e7cc5498d46",
-        "name": "Notify via Telegram",
-        "type": "n8n-nodes-base.telegram",
-        "position": [
-          2480,
-          224
-        ],
-        "webhookId": "f032103e-d146-4d8b-9b0f-77c8a9d59cd8",
-        "typeVersion": 1.2
+        "typeVersion": 1.1,
+        "credentials": {
+          "githubApi": {
+            "id": "hlYRcPMSMH2avcih",
+            "name": "GitHub account"
+          }
+        }
       }
     ],
     "connections": {
@@ -8132,24 +8069,12 @@
       },
       "Create File on GitHub": {
         "main": [
-          [
-            {
-              "node": "Notify via Telegram",
-              "type": "main",
-              "index": 0
-            }
-          ]
+          []
         ]
       },
       "Update File on GitHub": {
         "main": [
-          [
-            {
-              "node": "Notify via Telegram",
-              "type": "main",
-              "index": 0
-            }
-          ]
+          []
         ]
       },
       "Check File Existence in GitHub": {
